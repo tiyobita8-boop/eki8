@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ee">
+  <meta name="description" content="開くたびに、いまの一卦。三枚硬貨法で本卦・之卦・裏卦・綜卦・互卦を表示する、小さな易占い。">
+  <title>易のひととき｜三枚コイン占い</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232e5146'/%3E%3Cpath d='M15 19h34M15 32h13m8 0h13M15 45h34' stroke='%23f6f4ee' stroke-width='6'/%3E%3C/svg%3E">
+  <style>
+@charset "UTF-8";
+:root{color-scheme:light;--paper:#f6f4ee;--ink:#263d35;--muted:#737c70;--green:#2e5146;--gold:#ad7b38;--border:#dedfd4;--serif:"Yu Mincho","Hiragino Mincho ProN","Noto Serif CJK JP",serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}button,a,summary,select{ -webkit-tap-highlight-color:transparent}button,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:4px}.shell{width:min(1060px,100% - 80px);margin:auto}.site-header{height:108px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);font-family:var(--serif);font-size:23px;letter-spacing:.08em;font-weight:600}.brand-mark{display:grid;gap:5px;width:29px}.brand-mark i{height:4px;background:var(--green)}.brand-mark i:nth-child(2){background:linear-gradient(to right,var(--green) 42%,transparent 42%,transparent 58%,var(--green) 58%)}.header-note{color:var(--muted);font-size:12px;letter-spacing:.14em}.intro{padding:55px 0 42px;display:flex;align-items:center;justify-content:space-between;gap:25px}.eyebrow{font-size:10px;letter-spacing:.19em;color:var(--gold);display:flex;align-items:center;gap:10px;margin:0 0 18px}.eyebrow span{width:22px;height:1px;background:var(--gold)}h1{font-family:var(--serif);font-size:38px;letter-spacing:.09em;font-weight:500;line-height:1.5;margin:0 0 14px}.mobile-break{display:none}.intro-copy{font-size:13px;color:var(--muted);line-height:2;margin:0}.actions{display:flex;gap:10px;align-self:flex-end;margin-bottom:4px}button{border-radius:7px;min-height:48px;padding:12px 19px;font-size:13px;font-weight:600;letter-spacing:.02em;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,transform .15s}button:active{transform:translateY(1px)}.primary{border:1px solid var(--green);background:var(--green);color:#fff}.primary:hover{background:#243f37}.primary>span{font-size:22px;font-weight:400;line-height:1}.secondary{border:1px solid #cacfc4;background:transparent;color:var(--green)}.secondary:hover{background:#eaece3}.secondary svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5}.result-bar{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding:17px 0;font-size:11px;color:var(--muted);gap:10px}.result-bar p{margin:0;display:flex;align-items:center;gap:9px}.bar-divider{height:10px;width:1px;background:#b8c0b2;margin:0 4px}.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}#moving-summary{color:var(--gold)}.main-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}.hex-card{border:1px solid var(--border);border-radius:10px;background:#fcfbf7;min-width:0}.main-card{padding:27px 28px 24px;position:relative;overflow:hidden;min-height:228px}.main-card:first-child{background:#edf0e7;border-color:#d6ddcd}.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:27px}.card-label{display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.06em}.card-no{font-size:10px;color:#889280;letter-spacing:.12em}.card-caption{font-size:10px;letter-spacing:.07em;color:var(--muted);margin:0}.card-main{display:flex;justify-content:space-between;align-items:center;gap:18px}.hex-name{font-family:var(--serif);font-weight:500;font-size:31px;letter-spacing:.05em;line-height:1.4;margin:0;overflow-wrap:anywhere}.trigram-label{font-size:11px;color:var(--muted);margin:9px 0 0;letter-spacing:.08em}.hexagram{display:flex;flex-direction:column;gap:7px;width:86px;flex:0 0 86px}.yao{height:6px;position:relative;display:flex;justify-content:space-between;gap:11px}.yao span{height:100%;background:var(--green);flex:1;border-radius:1px}.yao.moving span{background:var(--gold)}.yao.moving:after{content:"";position:absolute;right:-10px;top:1px;width:4px;height:4px;border-radius:50%;background:var(--gold)}.related{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}.related-card{padding:21px 23px;min-height:156px}.related-card .card-top{margin-bottom:20px}.related-card .hex-name{font-size:24px}.related-card .hexagram{width:51px;flex-basis:51px;gap:5px}.related-card .yao{height:4px;gap:7px}.related-card .card-main{gap:10px}.related-card .trigram-label{display:none}.related-card .card-caption{font-size:10px;letter-spacing:0}.notice{min-height:24px;font-size:12px;color:var(--green);margin:12px 0 7px;text-align:center}.tools{border-top:1px solid var(--border)}details{border-bottom:1px solid var(--border)}summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;min-height:61px;padding:15px 3px;font-size:12px;color:#536356}summary::-webkit-details-marker{display:none}.summary-icon{display:inline-flex;justify-content:center;align-items:center;width:18px;height:18px;margin-right:12px;font-size:14px;color:var(--muted)}.chevron{font-size:18px;font-weight:300;color:var(--muted);padding-right:5px}details[open] .chevron{transform:rotate(45deg)}.detail-content{padding:0 30px 24px}.hint{font-size:12px;color:var(--muted);line-height:1.9;margin:0 0 15px}.coin-row{display:grid;grid-template-columns:58px 1fr 1fr 64px;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e6e6dd;font-size:12px}.coin-symbols{color:var(--muted);letter-spacing:.06em}.coin-row .hexagram{width:60px}.coin-row .yao{height:4px}.coin-score{text-align:right}.coin-score.moving-text{color:var(--gold)}.line-note{margin:13px 0 0}.manual-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:7px 0;border-top:1px solid #e6e6dd}.manual-row label{font-size:12px}.manual-row select{min-height:44px;border:1px solid #cbd1c3;border-radius:5px;padding:7px 14px;background:#fcfbf7;color:var(--ink);width:185px;font-size:14px}.small-button{margin-top:15px}.about-content dl{margin:0 0 20px}.about-content dl>div{display:grid;grid-template-columns:50px 1fr;font-size:12px;margin:10px 0}.about-content dt{font-weight:600}.about-content dd{margin:0;color:var(--muted)}.copy-fallback{border:1px solid var(--border);border-radius:8px;padding:18px;margin:20px 0}.copy-fallback label{font-size:12px}.copy-fallback textarea{display:block;width:100%;margin:10px 0;font-size:16px;line-height:1.8;background:#fffdf8;border:1px solid var(--border);border-radius:4px;padding:12px;color:var(--ink)}[hidden]{display:none!important}footer{display:flex;gap:12px;align-items:center;padding:34px 0;color:#8b9186;font-size:10px;letter-spacing:.04em}footer p{margin:0}.footer-seal{border:1px solid #bcbfae;color:#8e9784;font-family:var(--serif);font-size:13px;line-height:20px;width:21px;text-align:center;border-radius:2px}.footer-end{margin-left:auto}.loading{padding:30px;font-size:14px;color:var(--muted)}.noscript{padding:20px;border:1px solid var(--gold)}
+.ai-guide{margin:0 0 24px;padding:16px 18px;border:1px solid var(--border);border-radius:8px;background:#edf0e7;font-size:12px;line-height:1.9;overflow-wrap:anywhere}.ai-guide p{margin:0;color:var(--muted)}.ai-guide blockquote{margin:8px 0 0;color:var(--ink)}
+@media(max-width:480px){.ai-guide{margin-bottom:20px;padding:14px;font-size:11px}}
+@media(min-width:1400px){.shell{width:min(1100px,100% - 120px)}.intro{padding-top:65px}}
+@media(max-width:800px){.shell{width:calc(100% - 44px)}.site-header{height:83px}.intro{padding:36px 0 28px;display:block}h1{font-size:32px}.actions{margin:24px 0 0}.main-card{padding:22px;min-height:215px}.hex-name{font-size:27px}.hexagram{width:70px;flex-basis:70px;gap:6px}.related{gap:10px}.related-card{padding:17px 16px}.related-card .card-main{align-items:flex-start;flex-direction:column;gap:16px}.related-card .card-caption{display:none}.card-caption{font-size:10px}.footer-end{display:none}}
+@media(max-width:480px){.shell{width:calc(100% - 36px)}.site-header{height:78px}.brand{font-size:19px;gap:10px}.brand-mark{width:23px;gap:4px}.brand-mark i{height:3px}.header-note{font-size:10px;letter-spacing:.02em}.intro{padding:32px 0 27px}.eyebrow{font-size:9px;letter-spacing:.12em;margin-bottom:13px}h1{font-size:29px;letter-spacing:.06em;line-height:1.5;margin-bottom:13px}.intro-copy{font-size:12px;line-height:1.9}.actions{gap:8px;margin-top:23px}.actions button{flex:1;padding:11px 7px;font-size:12px;min-height:47px}.result-bar{font-size:10px;padding:14px 0;gap:4px}.result-bar p{gap:5px}.bar-divider{margin:0 2px}#moving-summary{font-size:10px}.main-pair{gap:10px}.main-card{padding:18px 17px 20px;min-height:250px}.card-top{margin-bottom:22px;align-items:flex-start;gap:3px}.card-label{font-size:12px;gap:6px}.card-no{font-size:9px}.main-card .card-top{display:block}.main-card .card-caption{margin-top:4px;font-size:10px}.main-card .card-main{display:block}.hex-name{font-size:24px;letter-spacing:.02em}.trigram-label{font-size:10px;margin-top:5px}.main-card .hexagram{width:64px;margin-top:22px;gap:6px}.main-card .yao{height:5px;gap:9px}.related{grid-template-columns:1fr;gap:9px;margin-top:10px}.related-card{padding:16px 18px;min-height:91px;display:flex;align-items:center;gap:22px}.related-card .card-top{display:block;margin:0;flex:0 0 62px}.related-card .card-caption{display:block;font-size:9px;margin-top:3px}.related-card .card-no{display:none}.related-card .card-main{flex-direction:row;align-items:center;justify-content:space-between;flex:1;gap:8px}.related-card .hex-name{font-size:23px}.related-card .hexagram{flex-basis:44px;width:44px;gap:4px}.related-card .yao{height:3px;gap:6px}.notice{font-size:11px;margin-top:10px}.detail-content{padding:0 4px 20px}.hint{font-size:11px}.coin-row{grid-template-columns:44px 1fr 64px 50px;gap:6px;font-size:11px}.coin-row .hexagram{width:48px}.coin-symbols{letter-spacing:0;font-size:11px}summary{font-size:12px;min-height:57px}footer{padding:27px 0;font-size:9px;gap:8px}.manual-row select{width:165px}.about-content dl>div{font-size:11px;grid-template-columns:42px 1fr}}
+@media(max-width:360px){.mobile-break{display:inline}h1{font-size:27px}.main-card{padding-left:13px;padding-right:13px}.main-card .hex-name{font-size:22px;letter-spacing:0}.related-card{gap:12px}.related-card .hex-name{font-size:22px;letter-spacing:0}.result-bar{align-items:flex-start;flex-wrap:wrap}#moving-summary{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="易のひととき・新しく占う"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>易のひととき</span></a>
+      <span class="header-note">三枚コイン占い</span>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div><p class="eyebrow"><span></span> A MOMENT WITH I CHING</p><h1 id="page-title">いまを映す、<br class="mobile-break">五つの卦。</h1><p class="intro-copy">問いを心に置いて、卦を眺める。<br>開く・更新するだけで、新しい卦が出ます。</p></div>
+        <div class="actions"><button id="recast" class="primary" type="button"><span aria-hidden="true">↻</span> もう一度占う</button><button id="copy" class="secondary" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4"/></svg>結果をコピー</button></div>
+      </section>
+      <section class="ai-guide" aria-label="AIへの相談方法">
+        <p>結果をコピーし、以下、プロンプトをＡＩに読み込ませてください</p>
+        <blockquote>「〇〇の件を易で占ってほしいと意識したら（結果をコピーのものをペースト）となったので、易占い師として、フィードバックしてください」</blockquote>
+      </section>
+      <div class="result-bar"><p><span class="live-dot" aria-hidden="true"></span><span id="result-mode">今回の卦</span><span class="bar-divider"></span><time id="cast-time"></time></p><span id="moving-summary"></span></div>
+      <section id="results" aria-label="五種類の卦" aria-busy="true"><p class="loading">卦を立てています…</p></section>
+      <p id="notice" class="notice" role="status" aria-live="polite"></p>
+      <section class="tools" aria-label="占いの詳細">
+        <details id="coin-details"><summary><span><span class="summary-icon" aria-hidden="true">◉</span> 六爻とコインの結果</span><span class="chevron" aria-hidden="true">＋</span></summary><div class="detail-content"><p class="hint">初爻（下）から上爻（上）へ、3枚のコインを6回。<br>表＝3、裏＝2。6＝老陰、7＝少陽、8＝少陰、9＝老陽。</p><div id="coin-results"></div><p class="hint line-note">金色の爻は、陰陽が入れ替わる「動爻」です。</p></div></details>
+        <details id="manual-details"><summary><span><span class="summary-icon" aria-hidden="true">☷</span> 爻を手動で変更する</span><span class="chevron" aria-hidden="true">＋</span></summary><div class="detail-content"><p class="hint">上が上爻、下が初爻。選んで「再計算」で反映します。</p><form id="manual-form"><div id="manual-inputs"></div><button class="primary small-button" type="submit">選んだ爻で再計算</button></form></div></details>
+        <details id="about"><summary><span><span class="summary-icon" aria-hidden="true">?</span> 五つの卦の見方</span><span class="chevron" aria-hidden="true">＋</span></summary><div class="detail-content about-content"><dl><div><dt>本卦</dt><dd>今回立った卦。いまの状況を見る起点。</dd></div><div><dt>之卦</dt><dd>本卦の動爻を反転した卦。変化の方向を眺める。</dd></div><div><dt>裏卦</dt><dd>本卦のすべての陰陽を反転。別の側面を見る。</dd></div><div><dt>綜卦</dt><dd>本卦の六爻の順序を逆転。立場を変えて眺める。</dd></div><div><dt>互卦</dt><dd>本卦の2・3・4爻を下卦、3・4・5爻を上卦に組み直す。</dd></div></dl><p class="hint">本卦と動爻を三枚硬貨法で無作為に生成し、ほかの四卦を算出します。動爻がなければ、本卦と之卦は同じになります。同じ卦が続くこともあります。</p></div></details>
+      </section>
+      <section id="copy-fallback" class="copy-fallback" hidden><label for="copy-text">コピー用テキスト</label><textarea id="copy-text" rows="5" readonly></textarea><p class="hint">長押ししてコピー、または Ctrl+C / ⌘C でコピーできます。</p></section>
+      <noscript><p class="noscript">卦を表示するには、ブラウザのJavaScriptを有効にしてください。</p></noscript>
+    </main>
+    <footer><span class="footer-seal" aria-hidden="true">易</span><p>答えを急がず、気づきのきっかけに。</p><span class="footer-end">六十四卦 · 三枚硬貨法</span></footer>
+  </div>
+  <script>
+(() => {
+// iching_auto.html（2026-10-25）から64卦表・下から上の爻配列・五卦の計算を継承。
+const trigrams = {'111':'乾','110':'兌','101':'離','100':'震','011':'巽','010':'坎','001':'艮','000':'坤'};
+const names = {
+'乾乾':'乾為天','乾兌':'天沢履','乾離':'天火同人','乾震':'天雷无妄','乾巽':'天風姤','乾坎':'天水訟','乾艮':'天山遯','乾坤':'天地否',
+'兌乾':'沢天夬','兌兌':'兌為沢','兌離':'沢火革','兌震':'沢雷随','兌巽':'沢風大過','兌坎':'沢水困','兌艮':'沢山咸','兌坤':'沢地萃',
+'離乾':'火天大有','離兌':'火沢睽','離離':'離為火','離震':'火雷噬嗑','離巽':'火風鼎','離坎':'火水未済','離艮':'火山旅','離坤':'火地晋',
+'震乾':'雷天大壮','震兌':'雷沢帰妹','震離':'雷火豊','震震':'震為雷','震巽':'雷風恒','震坎':'雷水解','震艮':'雷山小過','震坤':'雷地豫',
+'巽乾':'風天小畜','巽兌':'風沢中孚','巽離':'風火家人','巽震':'風雷益','巽巽':'巽為風','巽坎':'風水渙','巽艮':'風山漸','巽坤':'風地観',
+'坎乾':'水天需','坎兌':'水沢節','坎離':'水火既済','坎震':'水雷屯','坎巽':'水風井','坎坎':'坎為水','坎艮':'水山蹇','坎坤':'水地比',
+'艮乾':'山天大畜','艮兌':'山沢損','艮離':'山火賁','艮震':'山雷頤','艮巽':'山風蠱','艮坎':'山水蒙','艮艮':'艮為山','艮坤':'山地剥',
+'坤乾':'地天泰','坤兌':'地沢臨','坤離':'地火明夷','坤震':'地雷復','坤巽':'地風升','坤坎':'地水師','坤艮':'地山謙','坤坤':'坤為地'};
+
+const lineTypes = {6:'老陰',7:'少陽',8:'少陰',9:'老陽'};
+function hexName(lines) {
+  if (lines.length !== 6 || lines.some(v => v !== 0 && v !== 1)) throw new Error('六爻を指定してください');
+  return names[trigrams[lines.slice(3).join('')] + trigrams[lines.slice(0,3).join('')]];
+}
+function calculate(scores) {
+  if (scores.length !== 6 || scores.some(v => !Object.hasOwn(lineTypes, v))) throw new Error('各爻は6・7・8・9で指定してください');
+  const lines = scores.map(v => v % 2);
+  const moving = scores.flatMap((v,i) => v === 6 || v === 9 ? [i + 1] : []);
+  const changed = lines.map((v,i) => moving.includes(i + 1) ? 1-v : v);
+  const variants = [lines, changed, lines.map(v=>1-v), [...lines].reverse(), [lines[1],lines[2],lines[3],lines[2],lines[3],lines[4]]];
+  return {moving, entries: ['本卦','之卦','裏卦','綜卦','互卦'].map((label,i) => ({label, name:hexName(variants[i]), lines:variants[i]}))};
+}
+function castCoins(randomBit = () => {
+  const byte = new Uint8Array(1);
+  crypto.getRandomValues(byte);
+  return byte[0] & 1;
+}) {
+  return Array.from({length:6}, () => {
+    const coins = Array.from({length:3}, () => randomBit() === 1 ? 3 : 2);
+    return {coins, score:coins.reduce((a,b)=>a+b,0)};
+  });
+}
+function copyText(entries) { return entries.map(e => `☆${e.label}：${e.name}`).join('\n'); }
+
+
+const $ = id => document.getElementById(id);
+const positionNames = ['初爻','二爻','三爻','四爻','五爻','上爻'];
+const captions = ['いまのかたち','変化の先','陰陽を反転','視点を反転','内にあるもの'];
+let current = null;
+let copyEpoch = 0;
+
+function diagram(lines,moving=[]) {
+  return `<div class="hexagram" aria-hidden="true">${[...lines].reverse().map((v,i)=>`<div class="yao${moving.includes(6-i)?' moving':''}"><span></span>${v===0?'<span></span>':''}</div>`).join('')}</div>`;
+}
+function card(entry,i,moving) {
+  const upper=trigrams[entry.lines.slice(3).join('')], lower=trigrams[entry.lines.slice(0,3).join('')];
+  return `<article class="hex-card ${i<2?'main-card':'related-card'}" aria-labelledby="hex-${i}"><div class="card-top"><span class="card-label"><span class="card-no">0${i+1}</span>${entry.label}</span><p class="card-caption">${captions[i]}</p></div><div class="card-main"><div><h2 id="hex-${i}" class="hex-name">${entry.name}</h2><p class="trigram-label">上卦 ${upper} ／ 下卦 ${lower}</p></div>${diagram(entry.lines,i===0?moving:[])}</div></article>`;
+}
+function resetCopy() {
+  copyEpoch++;
+  $('copy-fallback').hidden=true;
+  $('notice').textContent='';
+}
+function render(scores,records,manual=false) {
+  resetCopy();
+  current=calculate(scores);
+  const {entries,moving}=current;
+  $('results').innerHTML=`<div class="main-pair">${entries.slice(0,2).map((e,i)=>card(e,i,moving)).join('')}</div><div class="related">${entries.slice(2).map((e,i)=>card(e,i+2,moving)).join('')}</div>`;
+  $('results').setAttribute('aria-busy','false');
+  $('result-mode').textContent=manual?'手動で立てた卦':'今回の卦';
+  const now=new Date();
+  $('cast-time').dateTime=now.toISOString();
+  $('cast-time').textContent=new Intl.DateTimeFormat('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
+  $('moving-summary').textContent=moving.length?`動爻 ${moving.map(n=>['','初','二','三','四','五','上'][n]).join('・')}`:'動爻なし';
+  $('coin-results').innerHTML=scores.map((score,i)=>({score,i})).reverse().map(({score,i})=>`<div class="coin-row"><span>${positionNames[i]}</span><span class="coin-symbols">${records?records[i].coins.map(c=>c===3?'表':'裏').join(' · '):'手動設定'}</span>${diagram([score%2],[6].filter(()=>score===6||score===9))}<span class="coin-score ${moving.includes(i+1)?'moving-text':''}">${score} ${lineTypes[score]}</span></div>`).join('');
+  for(let i=0;i<6;i++) $('line-'+i).value=String(scores[i]);
+  $('copy-text').value=copyText(entries);
+}
+function recast(announce=false) {
+  const records=castCoins();
+  render(records.map(r=>r.score),records);
+  if(announce) $('notice').textContent='新しい卦を立てました。';
+}
+
+$('manual-inputs').innerHTML=positionNames.map((label,i)=>({label,i})).reverse().map(({label,i})=>`<div class="manual-row"><label for="line-${i}">${label}（第${i+1}爻）</label><select id="line-${i}" name="line-${i}">${[7,8,9,6].map(score=>`<option value="${score}">${lineTypes[score]}（${score}）</option>`).join('')}</select></div>`).join('');
+$('recast').addEventListener('click',()=>recast(true));
+$('manual-form').addEventListener('submit',event=>{
+  event.preventDefault();
+  render(Array.from({length:6},(_,i)=>Number($('line-'+i).value)),null,true);
+  $('notice').textContent='選んだ爻で再計算しました。';
+});
+$('copy').addEventListener('click',async()=>{
+  if(!current)return;
+  const epoch=copyEpoch, content=copyText(current.entries);
+  try {
+    if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');
+    await navigator.clipboard.writeText(content);
+    if(epoch===copyEpoch) $('notice').textContent='五つの卦をコピーしました。';
+  } catch {
+    if(epoch!==copyEpoch)return;
+    $('copy-fallback').hidden=false;
+    $('copy-text').value=content;
+    $('copy-text').focus();
+    $('copy-text').select();
+    $('notice').textContent='下のテキストを選択してコピーしてください。';
+  }
+});
+
+// ES module の実行前に pageshow が発生する場合にも初回の一卦を保証。
+recast();
+window.addEventListener('pageshow',event=>{if(event.persisted)recast();});
+
+})();
+  </script>
+</body>
+</html>
